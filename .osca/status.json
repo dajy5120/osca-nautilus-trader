@@ -2,7 +2,7 @@
   "schema": "osca-status/v2",
   "project": "nautilus-trader",
   "granularity": "symbol",
-  "generated_at": "2026-10-04T04:55:40+00:00",
+  "generated_at": "2026-10-04T05:29:31+00:00",
   "anchor": {
     "commit": "27a8e54e7ac3c57d6cbf8891f0283dfbaee97317",
     "ref": "v1.231.0"
@@ -16,17 +16,17 @@
   "symbols": {
     "in_scope": 18161,
     "reviewed": 0,
-    "translated": 46,
+    "translated": 55,
     "stale": 5,
-    "pending": 18110,
+    "pending": 18101,
     "stale_by_kind": {
       "doc": 3,
       "body": 2
     },
     "orphaned": 0
   },
-  "zh_lines": 111,
-  "coverage": 0.0028,
-  "fresh": 0.0025,
+  "zh_lines": 145,
+  "coverage": 0.0033,
+  "fresh": 0.003,
   "reviewed": 0.0
 }
