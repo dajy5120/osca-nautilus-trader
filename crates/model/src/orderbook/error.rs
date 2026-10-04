@@ -35,7 +35,8 @@ pub enum InvalidBookOperation {
 }
 
 #[derive(thiserror::Error, Debug, PartialEq)]
-// 【zh】 盘口完整性被破坏：找不到订单、方向缺失、买卖交叉、档位数超出簿类型允许的范围等。
+// 【zh】 盘口完整性被破坏：找不到订单、方向缺失或有歧义（同一 order_id 同时出现在买卖两侧）、
+// 【zh】 买卖交叉、档位数超出簿类型允许的范围等。
 // 【zh】 出现这类错误通常说明上游数据有丢包 / 乱序，或快照与增量拼接有误。
 pub enum BookIntegrityError {
     #[error("Integrity error: order not found: order_id={0}, sequence={1}, ts_event={2}")]

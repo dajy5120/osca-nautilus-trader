@@ -27,6 +27,10 @@ study:
 license: LGPL-3.0
 
 scope:
+  # Which symbols count towards coverage (impl blocks are indexed but not counted).
+  symbols:
+    min_body_lines: 5
+    exclude_kinds: [impl]
   include:
     - "crates/core/**"
     - "crates/common/**"

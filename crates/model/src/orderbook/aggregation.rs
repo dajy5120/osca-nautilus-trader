@@ -70,7 +70,8 @@ fn price_based_order_id(order: &BookOrder) -> u64 {
 // 【zh】 按簿类型改写 order_id：
 // 【zh】 - L1_MBP：ID = 方向（买 / 卖），每侧只有一个订单；
 // 【zh】 - L2_MBP：ID = 价格哈希，每个价位只有一个订单；
-// 【zh】 - L3_MBO：保留交易所原始 ID；但若该条数据带 F_TOB / F_MBP 标志，按 L1 / L2 规则处理。
+// 【zh】 - L3_MBO：保留交易所原始 ID；但若该条数据带 F_TOB / F_MBP 标志，按 L1 / L2 规则处理；
+// 【zh】   order_id 为 0（不携带身份，例如 MBP 风格的数据）时同样用价格哈希，保证每个价位都可寻址。
 pub(crate) fn pre_process_order(book_type: BookType, mut order: BookOrder, flags: u8) -> BookOrder {
     match book_type {
         BookType::L1_MBP => order.order_id = order.side as u64,

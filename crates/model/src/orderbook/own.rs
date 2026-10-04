@@ -46,6 +46,7 @@ use crate::{
 /// depending on the value of the `status` field.
 /// 【zh】 自有订单：可能还在发往交易所的路上（SUBMITTED），也可能已在交易所挂单（ACCEPTED 等），
 /// 【zh】 由 `status` 区分；多个时间戳用于按“已被交易所确认多久”来过滤。
+/// 【zh】 注意 `size` 是剩余未成交数量（leaves quantity），部分成交后会随之减少。
 #[repr(C)]
 #[derive(Clone, Copy, Eq)]
 #[cfg_attr(

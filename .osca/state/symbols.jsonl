@@ -1,0 +1,51 @@
+{"at": {"body": "695107618b60", "doc": "04205556f877", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/aggregation.rs#<module>", "review": null, "zh": "004f612bfa0b"}
+{"at": {"body": "32203da76887", "doc": "e3b0c44298fc", "sig": "fe8b4319ded8"}, "by": "dajy5120", "id": "crates/model/src/orderbook/aggregation.rs#pre_process_order", "review": null, "zh": "a82705af9ecf"}
+{"at": {"body": "e290a5eb3d2d", "doc": "8e11667a33cf", "sig": "4b1e8f7cc4d1"}, "by": "osca", "id": "crates/model/src/orderbook/aggregation.rs#price_to_order_id", "review": null, "zh": "fe8cb59c9c29"}
+{"at": {"body": "89e023920d94", "doc": "aa4ac154f3f3", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/analysis.rs#<module>", "review": null, "zh": "55609d364059"}
+{"at": {"body": "28bac83518a8", "doc": "3d55b16ca3b8", "sig": "11673944946e"}, "by": "osca", "id": "crates/model/src/orderbook/analysis.rs#book_check_integrity", "review": null, "zh": "0b98005edbba"}
+{"at": {"body": "b83cb31a0053", "doc": "0f814b977d88", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#<module>", "review": null, "zh": "c242724df4c6"}
+{"at": {"body": "a304d41750fd", "doc": "0daebe19c76b", "sig": "baa87b216feb"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#OrderBook", "review": null, "zh": "e8505ab4239a"}
+{"at": {"body": "d01114661498", "doc": "901464f9436f", "sig": "0115b7f05f29"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::add", "review": null, "zh": "e833e0f637c8"}
+{"at": {"body": "3d04cc80d67d", "doc": "8228371c8088", "sig": "455887c2e54a"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::apply_delta", "review": null, "zh": "57f6b37d5363"}
+{"at": {"body": "410b3cdf33ba", "doc": "2df56d5e409f", "sig": "136c896b34d9"}, "by": "dajy5120", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::apply_delta_unchecked", "review": null, "zh": "a3e0127c15ee"}
+{"at": {"body": "1a3d22934cbd", "doc": "befa2a81b716", "sig": "e993b5dd950f"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::apply_depth_unchecked", "review": null, "zh": "64383211b0cd"}
+{"at": {"body": "065a7b6689dd", "doc": "5949f2efa6d5", "sig": "c8364f298e3f"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::clear_stale_levels", "review": null, "zh": "2add3f98c912"}
+{"at": {"body": "d04e51b48220", "doc": "4ade8d8cf368", "sig": "83d045127c6f"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::deltas_to_quotes", "review": null, "zh": "dbb371a7d87b"}
+{"at": {"body": "f20709810ac4", "doc": "3aa8c802fefa", "sig": "f600bd98b96a"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::filtered_view", "review": null, "zh": "5fb236a2b9ca"}
+{"at": {"body": "10eda6f34a59", "doc": "756c596dc2e6", "sig": "32b0666178fc"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::get_avg_px_for_quantity", "review": null, "zh": "9e0060ad9efd"}
+{"at": {"body": "c530480cbe0c", "doc": "e3b0c44298fc", "sig": "a2c6091d635d"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::increment", "review": null, "zh": "1178e75a84ec"}
+{"at": {"body": "d8825886db16", "doc": "e3b0c44298fc", "sig": "0fe9c0e0e07a"}, "by": "dajy5120", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::resolve_no_side_order", "review": null, "zh": "50d8a9d8283e"}
+{"at": {"body": "bdb081ef6695", "doc": "384bc8339472", "sig": "e785582f0ff4"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::simulate_fills", "review": null, "zh": "da4952dd4cee"}
+{"at": {"body": "daaa60de6dcb", "doc": "605d6b27fa73", "sig": "2b40a64d7855"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::spread", "review": null, "zh": "eeadc2d3ebd2"}
+{"at": {"body": "1703c1e20cb2", "doc": "fc9317677e5f", "sig": "1ca56e3793da"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::to_deltas", "review": null, "zh": "93548b613164"}
+{"at": {"body": "1715f761391b", "doc": "14faf32fb2db", "sig": "d5be9bd4c497"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::update", "review": null, "zh": "81c0ce29809c"}
+{"at": {"body": "709e0c4edeea", "doc": "928c835e4ed7", "sig": "ce3086bb1643"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::update_quote_tick", "review": null, "zh": "e440f49e599a"}
+{"at": {"body": "fbb3a87c6ac7", "doc": "969b7fb2ddda", "sig": "9f0eabc6a2ed"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::update_trade_tick", "review": null, "zh": "794f2923c143"}
+{"at": {"body": "42635d285ae3", "doc": "e3b0c44298fc", "sig": "43ec6df08401"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl PartialEq for OrderBook", "review": null, "zh": "16c89c072672"}
+{"at": {"body": "208db13f4ce8", "doc": "7bcb4443226b", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/display.rs#<module>", "review": null, "zh": "8c6f1e58103a"}
+{"at": {"body": "c95a50d33caa", "doc": "e3b0c44298fc", "sig": "fd7a984cba80"}, "by": "dajy5120", "id": "crates/model/src/orderbook/error.rs#BookIntegrityError", "review": null, "zh": "ba7b7ba6717b"}
+{"at": {"body": "f2c821f968b3", "doc": "e3b0c44298fc", "sig": "6c152527eef1"}, "by": "osca", "id": "crates/model/src/orderbook/error.rs#BookViewError", "review": null, "zh": "50044632d68c"}
+{"at": {"body": "a17d6a05be2d", "doc": "e3b0c44298fc", "sig": "167dd42025d7"}, "by": "osca", "id": "crates/model/src/orderbook/error.rs#InvalidBookOperation", "review": null, "zh": "1dded7935f78"}
+{"at": {"body": "d5ded4190eab", "doc": "e3b0c44298fc", "sig": "7f7735c7be80"}, "by": "osca", "id": "crates/model/src/orderbook/error.rs#OwnBookError", "review": null, "zh": "1b5142c6d2ae"}
+{"at": {"body": "6ff7e5aa9ea2", "doc": "436f3980a8df", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#<module>", "review": null, "zh": "f6091d2db1ab"}
+{"at": {"body": "505fe66a7ea0", "doc": "561b879358cb", "sig": "78da87c9fdd0"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#BookLadder", "review": null, "zh": "9b5bab5f6da4"}
+{"at": {"body": "f0789334b91e", "doc": "a0c951522099", "sig": "8a85c5ab1b8e"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#BookPrice", "review": null, "zh": "0d66106dae65"}
+{"at": {"body": "03322fb7a8ba", "doc": "7c3e2a6b2ce9", "sig": "d755201b9383"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#L1BatchState", "review": null, "zh": "fa14b01b8a1a"}
+{"at": {"body": "5e2dca085625", "doc": "b4f4f53ca50f", "sig": "5283dc9bd6a0"}, "by": "dajy5120", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::add", "review": null, "zh": "fa648a1ec67a"}
+{"at": {"body": "ed2579aff3de", "doc": "5bd572449a26", "sig": "7cbb6d3392a6"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::handle_l1_add", "review": null, "zh": "75ff74a1bd5c"}
+{"at": {"body": "b6458e900255", "doc": "a80cd3cf82c5", "sig": "741ac5fb1147"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::remove_order", "review": null, "zh": "20489d3e5ca6"}
+{"at": {"body": "2ad2c28d60a7", "doc": "92d41974b03d", "sig": "11d08449656b"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::retain_best_only", "review": null, "zh": "8025a817f67f"}
+{"at": {"body": "086bbe7f7a62", "doc": "65f0b1109a93", "sig": "3eab23791307"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::simulate_fills", "review": null, "zh": "7a8f69462343"}
+{"at": {"body": "6f6cb1d1282b", "doc": "34e5e16efc2b", "sig": "b7b784a1211a"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl BookLadder::update", "review": null, "zh": "5a9f101c9e0c"}
+{"at": {"body": "3cd87ca6128e", "doc": "e3b0c44298fc", "sig": "31228e8f645d"}, "by": "osca", "id": "crates/model/src/orderbook/ladder.rs#impl Ord for BookPrice::cmp", "review": null, "zh": "06adbd280b5a"}
+{"at": {"body": "ff85f661a869", "doc": "5830086591f1", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/level.rs#<module>", "review": null, "zh": "c6e319980ca2"}
+{"at": {"body": "f746217cb1ed", "doc": "46b53bcf8395", "sig": "04cd4f4b270c"}, "by": "osca", "id": "crates/model/src/orderbook/level.rs#BookLevel", "review": null, "zh": "a5f397815887"}
+{"at": {"body": "99a6a60eaf0c", "doc": "b8f3509acba7", "sig": "ac53c41eea5f"}, "by": "dajy5120", "id": "crates/model/src/orderbook/level.rs#impl BookLevel::exposure_raw", "review": null, "zh": "d90557434d47"}
+{"at": {"body": "441f0ad7d566", "doc": "3f76d53ba2e8", "sig": "1e4680396cde"}, "by": "osca", "id": "crates/model/src/orderbook/level.rs#impl BookLevel::remove_by_id", "review": null, "zh": "042a7546fba5"}
+{"at": {"body": "a120fcb26c50", "doc": "2d6801346e0a", "sig": "0f9554c624b9"}, "by": "osca", "id": "crates/model/src/orderbook/level.rs#impl BookLevel::update", "review": null, "zh": "d5ddb02658c7"}
+{"at": {"body": "e3b0c44298fc", "doc": "4856a410894d", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/mod.rs#<module>", "review": null, "zh": "617ad5bbcffe"}
+{"at": {"body": "9de69ff29067", "doc": "204f0e66200f", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/own.rs#<module>", "review": null, "zh": "a1ad450402f3"}
+{"at": {"body": "d0d3f483994c", "doc": "e8904b9d4d49", "sig": "80d644373dda"}, "by": "dajy5120", "id": "crates/model/src/orderbook/own.rs#OwnBookOrder", "review": null, "zh": "454d82f17103"}
+{"at": {"body": "50bbf6323645", "doc": "e3b0c44298fc", "sig": "c3b7d916a19c"}, "by": "osca", "id": "crates/model/src/orderbook/own.rs#OwnOrderBook", "review": null, "zh": "b351154512aa"}
+{"at": {"body": "a64a00cffcab", "doc": "e3b0c44298fc", "sig": "c7bebe1d6c0a"}, "by": "osca", "id": "crates/model/src/orderbook/own.rs#impl OwnOrderBook::audit_open_orders", "review": null, "zh": "2455c5c81473"}
+{"at": {"body": "13adc457d8bc", "doc": "6bd66ebb1040", "sig": "577ec6e42d54"}, "by": "osca", "id": "crates/model/src/orderbook/own.rs#impl OwnOrderBook::combined_with_opposite", "review": null, "zh": "73370a02213b"}
