@@ -2,7 +2,7 @@
   "schema": "osca-status/v2",
   "project": "nautilus-trader",
   "granularity": "symbol",
-  "generated_at": "2026-10-04T05:29:31+00:00",
+  "generated_at": "2026-10-04T05:55:33+00:00",
   "anchor": {
     "commit": "27a8e54e7ac3c57d6cbf8891f0283dfbaee97317",
     "ref": "v1.231.0"
@@ -26,6 +26,13 @@
     "orphaned": 0
   },
   "zh_lines": 145,
+  "docs": {
+    "current": 1,
+    "new": 0,
+    "stale": 0,
+    "broken": 0,
+    "unanchored": 0
+  },
   "coverage": 0.0033,
   "fresh": 0.003,
   "reviewed": 0.0
