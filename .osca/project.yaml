@@ -3,7 +3,7 @@
 schema: osca/v1
 project: nautilus-trader
 name: NautilusTrader
-osca_version: ">=0.1,<0.2"
+osca_version: ">=0.3,<0.4"
 
 upstream:
   remote: upstream
@@ -58,6 +58,17 @@ scope:
     - "**/*.pyi"
 
 terminology: [general, rust, python, trading, distributed-systems]
+
+atlas:
+  repo: dajy5120/opensource-code-atlas
+  ref: main
+
+# `osca translate` (structured annotation patches, ADR 0005)
+ai:
+  model: claude-opus-5-5
+  effort: medium            # low | medium | high | xhigh | max
+  max_symbols_per_request: 20
+  fallbacks: true           # server-side refusal fallback (not used for batches)
 
 build:
   check: "cargo check --workspace --all-features"
