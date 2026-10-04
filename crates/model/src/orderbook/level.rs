@@ -151,7 +151,8 @@ impl BookLevel {
     /// Division truncates toward zero.
     /// Non-positive prices contribute zero.
     /// Saturates at `QuantityRaw::MAX` if the total exposure would overflow.
-    /// 【zh】 敞口（exposure）= 价格 × 数量，换算为定点整数表示；溢出时饱和到最大值，负值截为 0。
+    /// 【zh】 敞口（exposure）= 价格 × 数量，以定点整数表示。逐单用整数运算 `price.raw * size.raw / FIXED_SCALAR`
+    /// 【zh】 （向零截断，避免浮点误差），非正价格计为 0；各订单累加时饱和到最大值，不会溢出。
     #[must_use]
     pub fn exposure_raw(&self) -> QuantityRaw {
         self.orders

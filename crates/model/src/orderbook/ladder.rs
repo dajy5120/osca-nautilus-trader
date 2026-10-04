@@ -183,6 +183,8 @@ impl BookLadder {
     ///   allowing price to degrade.
     /// 【zh】 向阶梯加入一个订单。L1 簿需要先经过 `handle_l1_add` 决定是否先清空；
     /// 【zh】 L2 / L3 簿忽略数量非正的订单。随后同时更新 `cache` 与 `levels`。
+    /// 【zh】 L2 / L3 簿中一个 order_id 在同一侧只能位于一个价位：同一 ID 以新价格再次加入时，
+    /// 【zh】 订单会从旧价位移到新价位的队尾（失去时间优先级），不会在旧价位留下“幽灵订单”。
     pub(crate) fn add(&mut self, order: BookOrder, flags: u8) {
         if self.book_type == BookType::L1_MBP && !self.handle_l1_add(&order, flags) {
             return;
