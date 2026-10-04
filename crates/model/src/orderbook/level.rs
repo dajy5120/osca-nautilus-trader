@@ -14,6 +14,7 @@
 // -------------------------------------------------------------------------------------------------
 
 //! Represents a discrete price level in an order book.
+//! 【zh】 订单簿中的单个价位。
 
 use std::cmp::Ordering;
 
@@ -31,6 +32,8 @@ use crate::{
 /// Represents a discrete price level in an order book.
 ///
 /// Orders are stored in an [`IndexMap`] which preserves FIFO (insertion) order.
+/// 【zh】 价位：同一价格上的全部订单。用 `IndexMap` 同时获得两种能力：
+/// 【zh】 按 order_id O(1) 查找，以及保持插入顺序（即时间优先 / FIFO，撮合时先到先成交）。
 #[derive(Clone, Debug, Eq)]
 #[cfg_attr(
     feature = "python",
@@ -131,6 +134,7 @@ impl BookLevel {
     /// Returns the total exposure (price * size) of all orders at this price level as raw integer units.
     ///
     /// Saturates at `QuantityRaw::MAX` if the total exposure would overflow.
+    /// 【zh】 敞口（exposure）= 价格 × 数量，换算为定点整数表示；溢出时饱和到最大值，负值截为 0。
     #[must_use]
     pub fn exposure_raw(&self) -> QuantityRaw {
         self.orders
@@ -182,6 +186,7 @@ impl BookLevel {
 
     /// Updates an existing order at this price level. Updated order must match the level's price.
     /// Removes the order if size becomes zero.
+    /// 【zh】 删除使用 `shift_remove` 而不是 `swap_remove`：后者 O(1) 但会打乱顺序，破坏 FIFO。
     pub fn update(&mut self, order: BookOrder) {
         debug_assert_eq!(order.price, self.price.value);
 
@@ -208,6 +213,7 @@ impl BookLevel {
     /// # Panics
     ///
     /// Panics if no order with the given `order_id` exists at this level.
+    /// 【zh】 订单不存在说明阶梯缓存与价位数据已不一致，属于不可恢复的完整性错误，因此直接 panic。
     pub fn remove_by_id(&mut self, order_id: OrderId, sequence: u64, ts_event: UnixNanos) {
         assert!(
             self.orders.shift_remove(&order_id).is_some(),

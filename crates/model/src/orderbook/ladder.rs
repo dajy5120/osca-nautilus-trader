@@ -14,6 +14,7 @@
 // -------------------------------------------------------------------------------------------------
 
 //! Represents a ladder of price levels for one side of an order book.
+//! 【zh】 价格阶梯：订单簿单侧（买盘或卖盘）的全部价位。
 
 use std::{
     cmp::Ordering,
@@ -41,6 +42,8 @@ use crate::{
 ///
 /// - Equality requires both `value` and `side` to match.
 /// - Ordering is side-dependent: Buy side sorts descending, Sell side ascending.
+/// 【zh】 带方向的价格，作为 `BTreeMap` 的键。关键技巧在 `Ord` 实现：买盘按价格降序、卖盘按升序，
+/// 【zh】 因此无论哪一侧，`levels` 的第一个元素永远是最优价位，取最优价只需 O(log n) 的 `first`。
 #[derive(Clone, Copy, Debug, Eq)]
 #[cfg_attr(
     feature = "python",
@@ -72,6 +75,7 @@ impl PartialEq for BookPrice {
 }
 
 impl Ord for BookPrice {
+    // 【zh】 跨方向比较没有意义，直接 assert 失败，以便尽早暴露逻辑错误。
     fn cmp(&self, other: &Self) -> Ordering {
         assert_eq!(
             self.side, other.side,
@@ -101,6 +105,8 @@ impl Display for BookPrice {
 /// stale MBP data could pollute a new snapshot. Without this distinction,
 /// an incomplete MBP stream (missing `F_LAST`) would leave batch state that
 /// incorrectly affects subsequent snapshot processing.
+/// 【zh】 L1 簿的批处理状态机。交易所常把“最优报价”拆成多条增量连续发送，
+/// 【zh】 只有收到 F_LAST 才算一批结束；这里记录当前处于哪一种批次，避免 MBP 流与快照互相污染。
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 enum L1BatchState {
     /// Not in any batch.
@@ -114,6 +120,9 @@ enum L1BatchState {
 
 /// Represents a ladder of price levels for one side of an order book.
 #[derive(Clone, Debug)]
+// 【zh】 `levels`：价位 → 该价位的订单（按最优到最劣排序）。
+// 【zh】 `cache`：order_id → 所在价位，用于 O(1) 定位订单；不变式：`cache.len()` == 所有价位订单数之和，
+// 【zh】 下文大量的 `debug_assert_eq!` 都在检查这条不变式。
 pub(crate) struct BookLadder {
     pub side: OrderSideSpecified,
     pub book_type: BookType,
@@ -164,6 +173,8 @@ impl BookLadder {
     ///   accumulation even if `F_LAST` is never sent.
     /// - `F_TOB` or no batch flags (single replacement): Clears existing levels first,
     ///   allowing price to degrade.
+    /// 【zh】 向阶梯加入一个订单。L1 簿需要先经过 `handle_l1_add` 决定是否先清空；
+    /// 【zh】 L2 / L3 簿忽略数量非正的订单。随后同时更新 `cache` 与 `levels`。
     pub(crate) fn add(&mut self, order: BookOrder, flags: u8) {
         if self.book_type == BookType::L1_MBP && !self.handle_l1_add(&order, flags) {
             return;
@@ -215,6 +226,8 @@ impl BookLadder {
     /// - `F_TOB` or no batch flags: Single replacement (clears first).
     ///
     /// Zero-size orders clear the entire L1 ladder.
+    /// 【zh】 L1 的核心难点：既要支持“单条替换”，又要支持“多条组成一批”的推送方式，
+    /// 【zh】 并且在交易所漏发 F_LAST 时也不能让旧价位残留。各分支的处理见下方注释。
     fn handle_l1_add(&mut self, order: &BookOrder, flags: u8) -> bool {
         if !order.size.is_positive() {
             self.clear();
@@ -258,6 +271,8 @@ impl BookLadder {
     }
 
     /// Updates an existing order in the ladder, moving it to a new price level if needed.
+    /// 【zh】 价格不变：原地更新（数量为 0 则删除）；价格改变：先从旧价位删除，再按新价格重新加入。
+    /// 【zh】 注意：改价后订单会排到新价位的队尾，失去原有的时间优先级——这与交易所的撮合规则一致。
     pub(crate) fn update(&mut self, order: BookOrder, flags: u8) {
         let price = self.cache.get(&order.order_id).copied();
         if let Some(price) = price
@@ -331,6 +346,7 @@ impl BookLadder {
     }
 
     /// Removes an order by its ID from the ladder.
+    /// 【zh】 先确认订单确实在价位中，再从 `cache` 删除，避免两边状态不一致；价位清空后整体移除。
     pub(crate) fn remove_order(&mut self, order_id: OrderId, sequence: u64, ts_event: UnixNanos) {
         if let Some(price) = self.cache.get(&order_id).copied()
             && let Some(level) = self.levels.get_mut(&price)
@@ -392,6 +408,8 @@ impl BookLadder {
     /// For `L1_MBP` books, this ensures only the top-of-book level is kept after
     /// processing multi-level data. The `BTreeMap` ordering ensures the first
     /// entry is always the best price (highest for bids, lowest for asks).
+    /// 【zh】 L1 簿中同一侧所有订单共用同一个合成 order_id，所以不能逐个价位调用 `remove_level`
+    /// 【zh】 （会把仍在使用的 order_id 从缓存中删掉），而是保留最优价位后整体重建 `cache`。
     fn retain_best_only(&mut self) {
         if self.levels.len() <= 1 {
             return;
@@ -452,6 +470,7 @@ impl BookLadder {
 
     /// Simulates fills for an order against this ladder's liquidity.
     /// Returns a list of (price, size) tuples representing the simulated fills.
+    /// 【zh】 `self.side` 是阶梯（对手盘）的方向：买盘阶梯对应卖单，价位低于限价时停止；卖盘阶梯反之。
     #[must_use]
     pub(crate) fn simulate_fills(&self, order: &BookOrder) -> Vec<(Price, Quantity)> {
         let is_reversed = self.side == OrderSideSpecified::Buy;

@@ -24,6 +24,7 @@ use crate::{
 };
 
 #[derive(thiserror::Error, Debug, PartialEq)]
+// 【zh】 对当前簿类型不允许的操作。例如只有 L1_MBP 簿可以直接用报价 / 成交 tick 更新。
 pub enum InvalidBookOperation {
     #[error("Invalid book operation: cannot pre-process order for {0} book")]
     PreProcessOrder(BookType),
@@ -34,6 +35,8 @@ pub enum InvalidBookOperation {
 }
 
 #[derive(thiserror::Error, Debug, PartialEq)]
+// 【zh】 盘口完整性被破坏：找不到订单、方向缺失、买卖交叉、档位数超出簿类型允许的范围等。
+// 【zh】 出现这类错误通常说明上游数据有丢包 / 乱序，或快照与增量拼接有误。
 pub enum BookIntegrityError {
     #[error("Integrity error: order not found: order_id={0}, sequence={1}, ts_event={2}")]
     OrderNotFound(u64, u64, UnixNanos),
@@ -52,6 +55,7 @@ pub enum BookIntegrityError {
 }
 
 #[derive(thiserror::Error, Debug, PartialEq)]
+// 【zh】 构造“过滤视图”（公共盘口减去自己的订单）时，两本簿的品种不匹配。
 pub enum BookViewError {
     #[error("Instrument ID mismatch: book={0}, own_book={1}")]
     InstrumentMismatch(InstrumentId, InstrumentId),
@@ -61,6 +65,7 @@ pub enum BookViewError {
 }
 
 #[derive(thiserror::Error, Debug, PartialEq)]
+// 【zh】 自有订单簿（`OwnOrderBook`）内部缓存与价位数据不一致。
 pub enum OwnBookError {
     #[error("Own book order not found in cache: client_order_id={client_order_id}")]
     OrderNotFoundInCache { client_order_id: ClientOrderId },

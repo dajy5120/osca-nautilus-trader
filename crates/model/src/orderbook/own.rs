@@ -16,6 +16,8 @@
 //! An `OwnBookOrder` for use with tracking own/user orders in L3 order books.
 //! It organizes orders into bid and ask ladders, maintains timestamps for state changes,
 //! and provides various methods for adding, updating, deleting, and querying orders.
+//! 【zh】 自有订单簿：只记录“我自己”挂出去的订单。它不参与撮合，主要用途是从公共盘口中
+//! 【zh】 扣除自己的挂单（见 `OrderBook::filtered_view`），让策略看到真实的外部流动性。
 
 use std::{
     cmp::Ordering,
@@ -42,6 +44,8 @@ use crate::{
 ///
 /// This struct models an order that may be in-flight to the trading venue or actively working,
 /// depending on the value of the `status` field.
+/// 【zh】 自有订单：可能还在发往交易所的路上（SUBMITTED），也可能已在交易所挂单（ACCEPTED 等），
+/// 【zh】 由 `status` 区分；多个时间戳用于按“已被交易所确认多久”来过滤。
 #[repr(C)]
 #[derive(Clone, Copy, Eq)]
 #[cfg_attr(
@@ -219,6 +223,7 @@ impl Display for OwnBookOrder {
     feature = "python",
     pyo3_stub_gen::derive::gen_stub_pyclass(module = "nautilus_trader.model")
 )]
+// 【zh】 自有订单簿：结构与 `OrderBook` 类似，但键是 `ClientOrderId`（本地订单 ID），而不是交易所的 order_id。
 pub struct OwnOrderBook {
     /// The instrument ID for the order book.
     pub instrument_id: InstrumentId,
@@ -454,6 +459,8 @@ impl OwnOrderBook {
     ///
     /// Opposite asks are transformed into bids with price `1 - price`.
     /// Opposite bids are transformed into asks with price `1 - price`.
+    /// 【zh】 用于二元期权类市场（如预测市场中“是 / 否”两个互补品种）：在对立品种上买入“否”
+    /// 【zh】 等价于在本品种上以 `1 - price` 卖出“是”，因此可以把两本簿合并成一个视图。
     ///
     /// # Errors
     ///
@@ -490,6 +497,7 @@ impl OwnOrderBook {
         pprint_own_book(self, num_levels, group_size)
     }
 
+    // 【zh】 对账（reconciliation）：与执行系统中“仍然打开的订单”集合比对，移除已经不存在的残留订单。
     pub fn audit_open_orders(&mut self, open_order_ids: &AHashSet<ClientOrderId>) {
         log::debug!("Auditing {self}");
 

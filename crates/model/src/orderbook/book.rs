@@ -14,6 +14,10 @@
 // -------------------------------------------------------------------------------------------------
 
 //! A performant, generic, multi-purpose order book.
+//! 【zh】 高性能、通用的订单簿实现。
+//! 【zh】
+//! 【zh】 `OrderBook` 由两条 `BookLadder`（买盘 bids / 卖盘 asks）组成。所有行情输入——增量、
+//! 【zh】 深度快照、报价 tick、成交 tick——最终都归结为对某一侧阶梯的 add / update / delete / clear。
 
 use std::fmt::Display;
 
@@ -47,6 +51,10 @@ use crate::{
 /// - L3 (MBO): Market By Order - tracks individual orders with unique IDs.
 /// - L2 (MBP): Market By Price - aggregates orders at each price level.
 /// - L1 (MBP): Top-of-Book - maintains only the best bid and ask prices.
+/// 【zh】 订单簿：按“价格优先、时间优先”维护买盘（bid）与卖盘（ask），支持三种数据粒度：
+/// 【zh】 - L3（MBO，Market By Order，逐笔）：跟踪每一个订单，订单有唯一 ID；
+/// 【zh】 - L2（MBP，Market By Price，按价位）：同一价位聚合为一个合成订单；
+/// 【zh】 - L1（MBP，Top-of-Book，最优报价）：每侧只保留最优一档。
 #[derive(Clone, Debug)]
 #[cfg_attr(
     feature = "python",
@@ -67,10 +75,13 @@ pub struct OrderBook {
     pub ts_last: UnixNanos,
     /// The current count of updates applied to the order book.
     pub update_count: u64,
+    // 【zh】 两侧阶梯只在 crate 内可见：外部只能通过 `bids()` / `asks()` 等只读接口访问，
+    // 【zh】 从而无法绕过阶梯维护的不变式（例如 order_id 缓存与价位数据一致）。
     pub(crate) bids: BookLadder,
     pub(crate) asks: BookLadder,
 }
 
+// 【zh】 相等性只比较“哪个品种、哪种簿类型”，不比较盘口内容。
 impl PartialEq for OrderBook {
     fn eq(&self, other: &Self) -> bool {
         self.instrument_id == other.instrument_id && self.book_type == other.book_type
@@ -117,6 +128,7 @@ impl OrderBook {
     }
 
     /// Adds an order to the book after preprocessing based on book type.
+    /// 【zh】 先经 `pre_process_order` 按簿类型改写 order_id（L1 / L2 用合成 ID 实现聚合），再按方向放入对应阶梯。
     pub fn add(&mut self, order: BookOrder, flags: u8, sequence: u64, ts_event: UnixNanos) {
         let order = pre_process_order(self.book_type, order, flags);
         match order.side.as_specified() {
@@ -128,6 +140,7 @@ impl OrderBook {
     }
 
     /// Updates an existing order in the book after preprocessing based on book type.
+    /// 【zh】 价格变化时，阶梯会把订单从旧价位移到新价位；数量更新为 0 等价于删除。
     pub fn update(&mut self, order: BookOrder, flags: u8, sequence: u64, ts_event: UnixNanos) {
         let order = pre_process_order(self.book_type, order, flags);
         match order.side.as_specified() {
@@ -175,6 +188,8 @@ impl OrderBook {
     /// - `side=None` or `NoOrderSide` clears both overlapped ranges (conservative, may widen spread).
     /// - `side=Buy` clears crossed bids only; side=Sell clears crossed asks only.
     /// - Returns removed price levels (crossed bids first, then crossed asks), or None if nothing removed.
+    /// 【zh】 清理“交叉盘口”（最优买价 > 最优卖价）中已经过期的价位。盘口交叉通常意味着漏掉了删除消息，
+    /// 【zh】 例如增量丢包、或快照与增量拼接错位。L1 每侧只有一档，不存在“过期价位”，因此直接返回。
     pub fn clear_stale_levels(&mut self, side: Option<OrderSide>) -> Option<Vec<BookLevel>> {
         if self.book_type == BookType::L1_MBP {
             // L1_MBP maintains a single top-of-book price per side; nothing to do
@@ -203,6 +218,7 @@ impl OrderBook {
             }
         }
 
+        // 【zh】 两侧阶梯都按“由优到劣”排序，所以遇到第一个不再交叉的价位即可 break。
         // Collect prices to remove for asks (prices <= best_bid)
         let mut ask_prices_to_remove = Vec::new();
 
@@ -280,6 +296,7 @@ impl OrderBook {
     /// - The delta's instrument ID does not match this book's instrument ID.
     /// - An `Add` is given with `NoOrderSide` (either explicitly or because the cache lookup failed).
     /// - After resolution the delta still has `NoOrderSide` but its action is not `Clear`.
+    /// 【zh】 应用单条增量（delta）——订单簿最核心的入口。先校验品种 ID，再交给 `apply_delta_unchecked`。
     pub fn apply_delta(&mut self, delta: &OrderBookDelta) -> Result<(), BookIntegrityError> {
         if delta.instrument_id != self.instrument_id {
             return Err(BookIntegrityError::InstrumentMismatch(
@@ -302,12 +319,17 @@ impl OrderBook {
     /// Returns an error if:
     /// - An `Add` is given with `NoOrderSide` (either explicitly or because the cache lookup failed).
     /// - After resolution the delta still has `NoOrderSide` but its action is not `Clear`.
+    /// 【zh】 处理流程：
+    /// 【zh】 1. 增量没给方向但带有 order_id 时，从两侧的 order_id 缓存中反查方向；
+    /// 【zh】 2. 反查失败：Add 报错（无法决定放哪一侧）；Update / Delete 说明订单本来就不在簿中，忽略即可；
+    /// 【zh】 3. 按 action 分派到 add / update / delete / clear。
     pub fn apply_delta_unchecked(
         &mut self,
         delta: &OrderBookDelta,
     ) -> Result<(), BookIntegrityError> {
         let mut order = delta.order;
 
+        // 【zh】 部分交易所的修改 / 删除消息只带 order_id、不带方向，这里借助阶梯的 `cache`（order_id → 价位）补全。
         if order.side == OrderSide::NoOrderSide && order.order_id != 0 {
             match self.resolve_no_side_order(order) {
                 Ok(resolved) => order = resolved,
@@ -394,6 +416,8 @@ impl OrderBook {
     /// # Returns
     ///
     /// An `OrderBookDeltas` containing a snapshot of the current order book state.
+    /// 【zh】 输出序列：1 条 Clear + 每个订单 1 条 Add（均带 F_SNAPSHOT），最后一条再带 F_LAST。
+    /// 【zh】 下游的缓冲型消费者看到 F_LAST 才知道快照完整，可以一次性刷新。
     #[must_use]
     pub fn to_deltas(&self, ts_event: UnixNanos, ts_init: UnixNanos) -> OrderBookDeltas {
         let mut deltas = Vec::new();
@@ -480,6 +504,8 @@ impl OrderBook {
     /// # Errors
     ///
     /// This function currently does not return errors, but returns `Result` for API consistency.
+    /// 【zh】 `OrderBookDepth10` 是固定 10 档的深度快照：先清空两侧，再逐档写入。
+    /// 【zh】 不足 10 档时以 NoOrderSide / 零数量的条目填充，写入时跳过这些占位条目。
     pub fn apply_depth_unchecked(
         &mut self,
         depth: &OrderBookDepth10,
@@ -542,6 +568,7 @@ impl OrderBook {
         Ok(())
     }
 
+    // 【zh】 在买、卖两侧的 order_id 缓存中查找订单所在的一侧；都查不到时返回 `OrderNotFoundForSideResolution`。
     fn resolve_no_side_order(&self, mut order: BookOrder) -> Result<BookOrder, BookIntegrityError> {
         let resolved_side = self
             .bids
@@ -672,6 +699,8 @@ impl OrderBook {
     /// Panics if `self` and `own_book` have different instrument IDs.
     ///
     /// [`Self::filtered_view_checked`] for fallible construction.
+    /// 【zh】 “过滤视图” = 公共盘口减去自己挂出的订单（`OwnOrderBook`）。做市或下单决策需要看到的是
+    /// 【zh】 “别人”提供的流动性，否则策略会把自己的挂单误当成对手盘。
     #[must_use]
     pub fn filtered_view(
         &self,
@@ -855,6 +884,7 @@ impl OrderBook {
     }
 
     /// Returns the spread between best ask and bid prices if both exist.
+    /// 【zh】 买卖价差（Spread）= 最优卖价 − 最优买价；返回 f64，用于分析和展示，不用于精确的价格运算。
     #[must_use]
     pub fn spread(&self) -> Option<f64> {
         match (self.best_ask_price(), self.best_bid_price()) {
@@ -873,6 +903,7 @@ impl OrderBook {
     }
 
     /// Calculates the average price to fill the specified quantity.
+    /// 【zh】 沿对手盘从最优价位逐档“吃”深度，估算成交 `qty` 的均价：买单看卖盘，卖单看买盘。
     #[must_use]
     pub fn get_avg_px_for_quantity(&self, qty: Quantity, order_side: OrderSide) -> f64 {
         let levels = match order_side.as_specified() {
@@ -954,6 +985,7 @@ impl OrderBook {
     }
 
     /// Simulates fills for an order, returning list of (price, quantity) tuples.
+    /// 【zh】 回测撮合的基础：按价格优先、同价位 FIFO 的顺序逐个消耗对手盘订单，直到数量满足或越过限价。
     #[must_use]
     pub fn simulate_fills(&self, order: &BookOrder) -> Vec<(Price, Quantity)> {
         match order.side.as_specified() {
@@ -989,6 +1021,8 @@ impl OrderBook {
         pprint_book(self, num_levels, group_size)
     }
 
+    // 【zh】 每次修改盘口后更新元数据。sequence / ts_event 回退（乱序）只记警告、不拒绝更新；
+    // 【zh】 同时取“高水位”（最大值），保证 `sequence` 与 `ts_last` 单调不减。
     fn increment(&mut self, sequence: u64, ts_event: UnixNanos) {
         if sequence > 0 && sequence < self.sequence {
             log::warn!(
@@ -1032,6 +1066,8 @@ impl OrderBook {
     /// # Errors
     ///
     /// Returns an error if the book type is not `L1_MBP`.
+    /// 【zh】 用报价 tick（买一 / 卖一）整体替换 L1 盘口两侧。合成 order_id 取 `OrderSide as u64`，
+    /// 【zh】 保证每侧始终只有一个订单。时间戳早于 `ts_last` 的过期报价会被丢弃。
     pub fn update_quote_tick(&mut self, quote: &QuoteTick) -> Result<(), InvalidBookOperation> {
         if self.book_type != BookType::L1_MBP {
             return Err(InvalidBookOperation::Update(self.book_type));
@@ -1084,6 +1120,7 @@ impl OrderBook {
     /// # Errors
     ///
     /// Returns an error if the book type is not `L1_MBP`.
+    /// 【zh】 只有成交数据、没有报价数据时，用成交价同时作为买一和卖一（数量为成交量）来近似 L1 盘口。
     pub fn update_trade_tick(&mut self, trade: &TradeTick) -> Result<(), InvalidBookOperation> {
         if self.book_type != BookType::L1_MBP {
             return Err(InvalidBookOperation::Update(self.book_type));
@@ -1159,6 +1196,8 @@ impl OrderBook {
     /// # Panics
     ///
     /// Panics if `deltas` is empty.
+    /// 【zh】 把一串增量回放进一本全新的簿，每当最优买价或最优卖价变化就输出一条 `QuoteTick`。
+    /// 【zh】 常用于从 L2 / L3 增量数据派生报价数据。
     #[must_use]
     pub fn deltas_to_quotes(book_type: BookType, deltas: &[OrderBookDelta]) -> Vec<QuoteTick> {
         assert!(!deltas.is_empty(), "`deltas` must not be empty");
@@ -1174,6 +1213,7 @@ impl OrderBook {
             let bid = book.best_bid_price();
             let ask = book.best_ask_price();
 
+            // 【zh】 BBO（Best Bid and Offer）= 最优买卖报价。
             // Reset cached BBO when one side disappears so that a
             // recovery to the same prices emits a fresh quote
             if bid.is_none() || ask.is_none() {

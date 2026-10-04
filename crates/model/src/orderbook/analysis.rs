@@ -14,6 +14,8 @@
 // -------------------------------------------------------------------------------------------------
 
 //! Functions related to order book analysis.
+//! 【zh】 订单簿分析函数：给定一侧价位，计算可成交量、成交均价、最差成交价，以及盘口完整性检查。
+//! 【zh】 这些都是无副作用的纯函数，`OrderBook` 上同名方法只是选择对手盘后转调这里。
 
 use std::collections::BTreeMap;
 
@@ -202,6 +204,8 @@ pub fn get_avg_px_qty_for_exposure(
 /// # Errors
 ///
 /// Returns an error if a book integrity check fails.
+/// 【zh】 完整性检查：L1 每侧最多一档、L2 每档最多一个订单（L3 不限），以及盘口是否严格交叉。
+/// 【zh】 注意只有 bid > ask 才算错误；bid == ask（锁定盘口，locked market）是合法状态。
 pub fn book_check_integrity(book: &OrderBook) -> Result<(), BookIntegrityError> {
     match book.book_type {
         BookType::L1_MBP => {

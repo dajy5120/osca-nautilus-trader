@@ -14,6 +14,7 @@
 // -------------------------------------------------------------------------------------------------
 
 //! Functions related to order book display.
+//! 【zh】 把订单簿渲染为人类可读的表格（调试与日志用），可按 `group_size` 合并价位。
 
 use rust_decimal::Decimal;
 use tabled::{builder::Builder, settings::Style};

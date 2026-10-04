@@ -14,6 +14,7 @@
 // -------------------------------------------------------------------------------------------------
 
 //! Functions related to normalizing and processing top-of-book events.
+//! 【zh】 订单预处理：根据簿类型改写 order_id，从而用同一套阶梯代码实现 L1 / L2 / L3 三种粒度。
 
 use crate::{
     data::order::BookOrder,
@@ -44,6 +45,9 @@ use crate::{
 ///
 /// Order-book correctness is binary, so we use a high-quality deterministic hash to
 /// push collision probability effectively to zero at negligible performance cost.
+/// 【zh】 把价格映射为稳定的合成 order_id：同一价格永远得到同一 ID，于是 L2 簿中同价位的更新
+/// 【zh】 会覆盖同一个“订单”，自然实现按价位聚合。使用固定种子的 AHash 而不是直接截断为 u64，
+/// 【zh】 是为了在高精度（i128）价格下避免不同价格碰撞到同一 ID。
 #[inline]
 fn price_to_order_id(price_raw: i128) -> u64 {
     let build_hasher = ahash::RandomState::with_seeds(0, 0, 0, 0);
@@ -63,6 +67,10 @@ fn price_based_order_id(order: &BookOrder) -> u64 {
     }
 }
 
+// 【zh】 按簿类型改写 order_id：
+// 【zh】 - L1_MBP：ID = 方向（买 / 卖），每侧只有一个订单；
+// 【zh】 - L2_MBP：ID = 价格哈希，每个价位只有一个订单；
+// 【zh】 - L3_MBO：保留交易所原始 ID；但若该条数据带 F_TOB / F_MBP 标志，按 L1 / L2 规则处理。
 pub(crate) fn pre_process_order(book_type: BookType, mut order: BookOrder, flags: u8) -> BookOrder {
     match book_type {
         BookType::L1_MBP => order.order_id = order.side as u64,
