@@ -17,7 +17,9 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - name: Install osca
         run: uv tool install "git+https://github.com/dajy5120/opensource-code-atlas@main#subdirectory=tools/osca"
-      - name: Strip invariant
+      - name: Strip invariant + placement lint
         run: osca verify
+      - name: Terminology
+        run: osca terms lint
       - name: Status
         run: osca status >> "$GITHUB_STEP_SUMMARY"
