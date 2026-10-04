@@ -1,0 +1,51 @@
+name: osca-sync
+# Weekly: merge the newest upstream release into a sync/<tag> branch and open a PR
+# whose body is the change report. Merge it with "Create a merge commit".
+on:
+  schedule:
+    - cron: "0 2 * * 1"   # Mondays 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      to:
+        description: "Upstream ref to sync to (default: newest matching tag)"
+        required: false
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+concurrency:
+  group: osca-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: study/zh-CN
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+      - name: Install osca
+        run: uv tool install "git+https://github.com/dajy5120/opensource-code-atlas@main#subdirectory=tools/osca"
+      - name: Prepare remotes and branches
+        run: |
+          git config user.name "osca-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/nautechsystems/nautilus_trader
+          git branch -f mirror/develop origin/mirror/develop
+      - name: Skip while a sync PR is open
+        id: open
+        run: |
+          n=$(gh pr list --state open --json headRefName --jq '[.[] | select(.headRefName | startswith("sync/"))] | length')
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+      - name: Sync
+        if: steps.open.outputs.count == '0'
+        run: |
+          if [ -n "${{ inputs.to }}" ]; then osca sync --pr --to "${{ inputs.to }}"; else osca sync --pr; fi
+          osca status >> "$GITHUB_STEP_SUMMARY"
+      - name: Keep upstream workflows disabled
+        if: always()
+        run: osca workflows disable
