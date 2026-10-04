@@ -1,0 +1,45 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 9fd9a98
+_src_path: gh:dajy5120/opensource-code-atlas
+atlas_repo: dajy5120/opensource-code-atlas
+build_check: cargo check --workspace --all-features
+github_owner: dajy5120
+license: LGPL-3.0
+osca_ref: main
+project_id: nautilus-trader
+project_name: NautilusTrader
+scope_exclude:
+- '**/tests/**'
+- '**/tests.rs'
+- '**/benches/**'
+- crates/*/src/python/**
+- crates/*/src/ffi/**
+- '**/*.pyi'
+scope_include:
+- crates/core/**
+- crates/common/**
+- crates/model/**
+- crates/data/**
+- crates/execution/**
+- crates/risk/**
+- crates/portfolio/**
+- crates/trading/**
+- crates/backtest/**
+- crates/system/**
+- crates/live/**
+- crates/network/**
+- crates/persistence/**
+- crates/indicators/**
+- crates/analysis/**
+- nautilus_trader/**
+- python/nautilus_trader/**
+tag_pattern: ^v\d+\.\d+\.\d+$
+terminology:
+- general
+- rust
+- python
+- trading
+- distributed-systems
+track: tags
+upstream_branch: develop
+upstream_url: https://github.com/nautechsystems/nautilus_trader

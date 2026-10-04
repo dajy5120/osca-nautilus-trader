@@ -1,0 +1,569 @@
+{
+  "schema": "osca-status/v1",
+  "project": "nautilus-trader",
+  "granularity": "file",
+  "generated_at": "2026-10-04T03:47:20+00:00",
+  "anchor": {
+    "commit": "8160730c7c550480b0a439fb11086a4c4de15f0b",
+    "ref": "v1.230.0"
+  },
+  "files": {
+    "in_scope": 1321,
+    "translated": 0,
+    "pending": 1321
+  },
+  "zh_lines": 0,
+  "coverage": 0.0,
+  "groups": {
+    "crates/analysis": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/analysis/src": {
+      "files": 30,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/backtest": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/backtest/examples": {
+      "files": 3,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/backtest/src": {
+      "files": 15,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/common": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/common/examples": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/common/src": {
+      "files": 102,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/core": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/core/src": {
+      "files": 24,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/data": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/data/src": {
+      "files": 22,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/execution": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/execution/src": {
+      "files": 31,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/indicators": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/indicators/src": {
+      "files": 47,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/live": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/live/src": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/model": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/model/src": {
+      "files": 216,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/network": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/network/src": {
+      "files": 36,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/persistence": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/persistence/bin": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/persistence/macros": {
+      "files": 3,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/persistence/src": {
+      "files": 13,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/portfolio": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/portfolio/src": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/risk": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/risk/src": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/system": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/system/src": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/trading": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "crates/trading/src": {
+      "files": 32,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/accounting": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/accounting/accounts": {
+      "files": 10,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/_template": {
+      "files": 5,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/architect_ax": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/betfair": {
+      "files": 19,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/binance": {
+      "files": 56,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/bitmex": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/bybit": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/databento": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/deribit": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/dydx": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/hyperliquid": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/interactive_brokers": {
+      "files": 26,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/interactive_brokers_pyo3": {
+      "files": 5,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/kraken": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/okx": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/polymarket": {
+      "files": 38,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/sandbox": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/adapters/tardis": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/analysis": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/backtest": {
+      "files": 15,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/backtest/models": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/cache": {
+      "files": 13,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/common": {
+      "files": 23,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/config": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/core": {
+      "files": 19,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/core/includes": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/core/rust": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/data": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/examples": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/examples/algorithms": {
+      "files": 3,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/examples/indicators": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/examples/strategies": {
+      "files": 19,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/execution": {
+      "files": 20,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/indicators": {
+      "files": 19,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/live": {
+      "files": 15,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/model": {
+      "files": 21,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/model/events": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/model/instruments": {
+      "files": 42,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/model/orders": {
+      "files": 26,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/model/tick_scheme": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/persistence": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/persistence/catalog": {
+      "files": 5,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/portfolio": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/risk": {
+      "files": 7,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/serialization": {
+      "files": 6,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/serialization/arrow": {
+      "files": 11,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/system": {
+      "files": 3,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/test_kit": {
+      "files": 4,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/test_kit/mocks": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/test_kit/rust": {
+      "files": 8,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/test_kit/strategies": {
+      "files": 3,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/test_kit/stubs": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "nautilus_trader/trading": {
+      "files": 9,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader": {
+      "files": 2,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/adapters": {
+      "files": 20,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/analysis": {
+      "files": 5,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/backtest": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/common": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/core": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/cryptography": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/data": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/execution": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/indicators": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/infrastructure": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/live": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/model": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/network": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/persistence": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/portfolio": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/risk": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/serialization": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/testkit": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    },
+    "python/nautilus_trader/trading": {
+      "files": 1,
+      "translated": 0,
+      "zh_lines": 0
+    }
+  }
+}

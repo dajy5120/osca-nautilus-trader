@@ -1,0 +1,55 @@
+# OSCA project configuration (hand-maintained). Generated from the copier template;
+# run `uvx copier update` to pick up template changes.
+schema: osca/v1
+project: nautilus-trader
+name: NautilusTrader
+osca_version: ">=0.1,<0.2"
+
+upstream:
+  remote: upstream
+  repository: https://github.com/nautechsystems/nautilus_trader
+  branch: develop
+  track: tags
+  tag_pattern: '^v\d+\.\d+\.\d+$'
+  mirror_branch: mirror/develop
+
+study:
+  branch: study/zh-CN
+  language: zh-CN
+  strategy: inline-comments
+  marker: "【zh】"
+
+license: LGPL-3.0
+
+scope:
+  include:
+    - "crates/core/**"
+    - "crates/common/**"
+    - "crates/model/**"
+    - "crates/data/**"
+    - "crates/execution/**"
+    - "crates/risk/**"
+    - "crates/portfolio/**"
+    - "crates/trading/**"
+    - "crates/backtest/**"
+    - "crates/system/**"
+    - "crates/live/**"
+    - "crates/network/**"
+    - "crates/persistence/**"
+    - "crates/indicators/**"
+    - "crates/analysis/**"
+    - "nautilus_trader/**"
+    - "python/nautilus_trader/**"
+  exclude:
+    - "**/tests/**"
+    - "**/tests.rs"
+    - "**/benches/**"
+    - "crates/*/src/python/**"
+    - "crates/*/src/ffi/**"
+    - "**/*.pyi"
+
+terminology: [general, rust, python, trading, distributed-systems]
+
+build:
+  check: "cargo check --workspace --all-features"
+  doc: "cargo doc --workspace --no-deps"

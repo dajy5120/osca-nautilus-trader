@@ -1,0 +1,23 @@
+name: osca-verify
+on:
+  pull_request:
+    branches: [study/zh-CN]
+  push:
+    branches: [study/zh-CN]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # the anchor commit and its ancestry are needed
+      - uses: astral-sh/setup-uv@v6
+      - name: Install osca
+        run: uv tool install "git+https://github.com/dajy5120/opensource-code-atlas@main#subdirectory=tools/osca"
+      - name: Strip invariant
+        run: osca verify
+      - name: Status
+        run: osca status >> "$GITHUB_STEP_SUMMARY"
