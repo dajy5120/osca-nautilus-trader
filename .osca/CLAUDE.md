@@ -23,7 +23,7 @@
 
 ## 批量翻译
 
-`osca translate <路径> --dry-run` 查看计划与 token 估算，确认后去掉 `--dry-run`（调用 Claude API，需要 `ANTHROPIC_API_KEY`）。
+`osca translate <路径> --dry-run` 查看计划与 token 估算，确认后去掉 `--dry-run`（默认通过 `claude -p` 使用订阅额度）。
 它只产出结构化注释并由工具插入，结果仍需人工审核。斜杠命令：`/osca-translate`、`/osca-sync`、`/osca-review`、`/osca-analyze`。
 
 ## 复核过时的注释

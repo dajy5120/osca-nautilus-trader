@@ -3,7 +3,7 @@
 schema: osca/v1
 project: nautilus-trader
 name: NautilusTrader
-osca_version: ">=0.3,<0.4"
+osca_version: ">=0.4,<0.5"
 
 upstream:
   remote: upstream
@@ -65,7 +65,7 @@ atlas:
 
 # `osca translate` (structured annotation patches, ADR 0005)
 ai:
-  backend: claude-code     # claude-code = subscription via `claude -p`; api = ANTHROPIC_API_KEY
+  backend: claude-code      # claude-code = Claude subscription via `claude -p`; api = ANTHROPIC_API_KEY
   model: claude-sonnet-5-5
   effort: medium            # low | medium | high | xhigh | max
   max_symbols_per_request: 20
