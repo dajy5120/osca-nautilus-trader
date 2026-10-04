@@ -25,6 +25,8 @@ use crate::{
     orderbook::{OrderBook, own::OwnOrderBook},
 };
 
+// 【zh】 订单簿表格中的一行展示数据，对应表格的“买盘 / 价格 / 卖盘”三列。
+// 【zh】 三个字段都已格式化为字符串；买盘或卖盘一侧没有数据时为空字符串。
 struct BookLevelDisplay {
     bids: String,
     price: String,
@@ -32,6 +34,12 @@ struct BookLevelDisplay {
 }
 
 /// Return a [`String`] representation of the order book in a human-readable table format.
+/// 【zh】 把订单簿（Order Book）渲染为带头部统计信息的圆角表格字符串，用于调试与日志。
+/// 【zh】 卖盘在上、买盘在下，各取最优的 `num_levels` 档，并先对卖盘做 `rev` 反转，
+/// 【zh】 这样价格从上到下递减，最优卖价与最优买价在表格中间相邻。
+/// 【zh】 传入 `group_size` 时按该粒度合并价位，只显示每个价格的总量；
+/// 【zh】 否则逐档显示，并列出该档内每笔订单的数量（形如 `[a, b]`）。
+/// 【zh】 头部包含买卖档位总数（不受 `num_levels` 限制）、序列号、更新次数和最近时间戳。
 #[must_use]
 #[expect(clippy::needless_collect)] // Collect needed for .rev() and .chain()
 pub(crate) fn pprint_book(
@@ -43,6 +51,7 @@ pub(crate) fn pprint_book(
         let bid_quantities = order_book.group_bids(group_size, Some(num_levels));
         let ask_quantities = order_book.group_asks(group_size, Some(num_levels));
 
+        // 【zh】 合并价位时按 `group_size` 的小数位数格式化价格，使各行价格位数一致。
         // Use the precision of the group_size for consistent formatting
         let precision = group_size.scale();
 
@@ -132,6 +141,9 @@ pub(crate) fn pprint_book(
 }
 
 /// Return a [`String`] representation of the own order book in a human-readable table format.
+/// 【zh】 把自有订单簿（`OwnOrderBook`）渲染为表格字符串，布局与 `pprint_book` 相同。
+/// 【zh】 区别在于数据来自自有订单，且头部不含 `sequence` 字段。
+/// 【zh】 分组模式下的数量查询不启用任何过滤，因此展示的是全部自有订单。
 #[must_use]
 #[expect(clippy::needless_collect)] // Collect needed for .rev() and .chain()
 pub(crate) fn pprint_own_book(
@@ -233,6 +245,8 @@ pub(crate) fn pprint_own_book(
     format!("{header}\n{table}")
 }
 
+// 【zh】 用 `tabled` 把若干行数据构建成三列（bids、price、asks）的圆角样式表格，
+// 【zh】 表头固定为首行，返回最终字符串。
 fn render_book_levels(data: Vec<BookLevelDisplay>) -> String {
     let mut builder = Builder::with_capacity(data.len() + 1, 3);
     builder.push_record(["bids", "price", "asks"]);

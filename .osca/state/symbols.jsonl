@@ -28,6 +28,10 @@
 {"at": {"body": "fbb3a87c6ac7", "doc": "969b7fb2ddda", "sig": "9f0eabc6a2ed"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::update_trade_tick", "review": null, "zh": "794f2923c143"}
 {"at": {"body": "42635d285ae3", "doc": "e3b0c44298fc", "sig": "43ec6df08401"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl PartialEq for OrderBook", "review": null, "zh": "16c89c072672"}
 {"at": {"body": "208db13f4ce8", "doc": "7bcb4443226b", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/display.rs#<module>", "review": null, "zh": "8c6f1e58103a"}
+{"at": {"body": "8649e772a0a5", "doc": "e3b0c44298fc", "sig": "e88cea8b5aca"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/display.rs#BookLevelDisplay", "review": null, "zh": "69cf3b24c3a1"}
+{"at": {"body": "745f6b89f518", "doc": "b29029151080", "sig": "7891333e7a39"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/display.rs#pprint_book", "review": null, "zh": "e4c4202104f2"}
+{"at": {"body": "29f478d5842e", "doc": "514ea0fb9c34", "sig": "a3b07c4d439b"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/display.rs#pprint_own_book", "review": null, "zh": "380aaf24b650"}
+{"at": {"body": "634be4a0d742", "doc": "e3b0c44298fc", "sig": "9079b7c41b72"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/display.rs#render_book_levels", "review": null, "zh": "2f97cba04bca"}
 {"at": {"body": "c95a50d33caa", "doc": "e3b0c44298fc", "sig": "fd7a984cba80"}, "by": "dajy5120", "id": "crates/model/src/orderbook/error.rs#BookIntegrityError", "review": null, "zh": "ba7b7ba6717b"}
 {"at": {"body": "f2c821f968b3", "doc": "e3b0c44298fc", "sig": "6c152527eef1"}, "by": "osca", "id": "crates/model/src/orderbook/error.rs#BookViewError", "review": null, "zh": "50044632d68c"}
 {"at": {"body": "a17d6a05be2d", "doc": "e3b0c44298fc", "sig": "167dd42025d7"}, "by": "osca", "id": "crates/model/src/orderbook/error.rs#InvalidBookOperation", "review": null, "zh": "1dded7935f78"}
