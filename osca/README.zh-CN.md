@@ -7,6 +7,8 @@
 
 在线阅读：https://dajy5120.github.io/osca-nautilus-trader/
 
+使用与参与方式（翻译、同步、人工审核）见总仓库的 [使用手册](https://github.com/dajy5120/opensource-code-atlas/blob/main/docs/GUIDE.md)。
+
 ## 分支
 
 | 分支 | 内容 |
