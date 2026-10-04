@@ -3,6 +3,11 @@
 {"at": {"body": "e290a5eb3d2d", "doc": "8e11667a33cf", "sig": "4b1e8f7cc4d1"}, "by": "osca", "id": "crates/model/src/orderbook/aggregation.rs#price_to_order_id", "review": null, "zh": "fe8cb59c9c29"}
 {"at": {"body": "89e023920d94", "doc": "aa4ac154f3f3", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/analysis.rs#<module>", "review": null, "zh": "55609d364059"}
 {"at": {"body": "28bac83518a8", "doc": "3d55b16ca3b8", "sig": "11673944946e"}, "by": "osca", "id": "crates/model/src/orderbook/analysis.rs#book_check_integrity", "review": null, "zh": "0b98005edbba"}
+{"at": {"body": "ec1bd10671a5", "doc": "bd88c91ef031", "sig": "177fef7b9936"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/analysis.rs#get_avg_px_for_quantity", "review": null, "zh": "0c85b06e75a7"}
+{"at": {"body": "e3d391df8a07", "doc": "a92ee6df4e5e", "sig": "1d61e5471b10"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/analysis.rs#get_avg_px_qty_for_exposure", "review": null, "zh": "2eb591b88cfb"}
+{"at": {"body": "79d1374d885e", "doc": "ccbaccfdd0fb", "sig": "49749f8fbbfa"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/analysis.rs#get_levels_for_price", "review": null, "zh": "827b1450f43b"}
+{"at": {"body": "c39483e916c5", "doc": "e789de406dd1", "sig": "8e8891d35f22"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/analysis.rs#get_quantity_for_price", "review": null, "zh": "63576b7746cc"}
+{"at": {"body": "a3ad3f5d7a5d", "doc": "c73a9032c85d", "sig": "c59dfc930cc0"}, "by": "ai:claude-sonnet-5-5", "id": "crates/model/src/orderbook/analysis.rs#get_worst_px_for_quantity", "review": null, "zh": "860cf188c36b"}
 {"at": {"body": "b83cb31a0053", "doc": "0f814b977d88", "sig": "e3b0c44298fc"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#<module>", "review": null, "zh": "c242724df4c6"}
 {"at": {"body": "a304d41750fd", "doc": "0daebe19c76b", "sig": "baa87b216feb"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#OrderBook", "review": null, "zh": "e8505ab4239a"}
 {"at": {"body": "d01114661498", "doc": "901464f9436f", "sig": "0115b7f05f29"}, "by": "osca", "id": "crates/model/src/orderbook/book.rs#impl OrderBook::add", "review": null, "zh": "e833e0f637c8"}

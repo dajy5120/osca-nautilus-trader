@@ -30,6 +30,10 @@ use crate::{
 
 /// Calculates the estimated fill quantity for a specified price from a set of
 /// order book levels and order side.
+/// 【zh】 计算在给定价格下可成交的预估总数量：从最优价位开始累加，直到价位越过限价为止。
+/// 【zh】 `levels` 须按“由优到劣”的顺序遍历（BTreeMap 的键序由 `BookPrice` 保证）。
+/// 【zh】 买单遇到价格高于限价的卖盘即停止；卖单遇到价格低于限价的买盘即停止。
+/// 【zh】 返回 `f64`，只是估算值，不做精度换算。
 #[must_use]
 pub fn get_quantity_for_price(
     price: Price,
@@ -62,6 +66,10 @@ pub fn get_quantity_for_price(
 /// Unlike `get_quantity_for_price` which returns just the total, this returns
 /// each individual level as (price, size). Used when liquidity consumption
 /// tracking needs visibility into all available levels.
+/// 【zh】 返回限价所能穿越的每个价位 (价格, 数量)，而不只是总量。
+/// 【zh】 遍历与停止条件同 `get_quantity_for_price`。
+/// 【zh】 数量按 `size_precision` 由原始整数还原为 `Quantity`，保持精度一致。
+/// 【zh】 用于流动性消耗（liquidity consumption）跟踪，需要看到每个可用价位。
 #[must_use]
 pub fn get_levels_for_price(
     price: Price,
@@ -97,6 +105,11 @@ pub fn get_levels_for_price(
 /// # Panics
 ///
 /// Panics if the calculated average price cannot be parsed as an `f64`.
+/// 【zh】 计算成交指定数量的预估成交均价（按量加权）。
+/// 【zh】 逐档吃单，每档只取 `min(本档数量, 剩余数量)`，凑够目标数量后停止。
+/// 【zh】 累加使用 `Decimal` 以避免浮点误差，最后才转换为 `f64`。
+/// 【zh】 若一档都吃不到（订单簿为空或数量为 0），返回 0.0。
+/// 【zh】 若订单簿深度不足，则返回实际能成交部分的均价。
 #[must_use]
 pub fn get_avg_px_for_quantity(qty: Quantity, levels: &BTreeMap<BookPrice, BookLevel>) -> f64 {
     let mut cumulative_size_raw: QuantityRaw = 0;
@@ -130,6 +143,9 @@ pub fn get_avg_px_for_quantity(qty: Quantity, levels: &BTreeMap<BookPrice, BookL
 ///
 /// For buy-side traversal this is the highest ask touched; for sell-side traversal
 /// this is the lowest bid touched. Returns `None` when no quantity can be matched.
+/// 【zh】 计算成交指定数量时最差（最后触及）的价格。
+/// 【zh】 数量为 0 的价位会被跳过，因此不会把空档当作最差价。
+/// 【zh】 深度不足时返回已触及的最后一档；完全无法成交则返回 `None`。
 #[must_use]
 pub fn get_worst_px_for_quantity(
     qty: Quantity,
@@ -162,6 +178,10 @@ pub fn get_worst_px_for_quantity(
 
 /// Calculates the estimated average price for a specified exposure from a set of
 /// order book levels.
+/// 【zh】 按目标名义敞口（exposure，价格 × 数量）估算成交，返回 (均价, 数量, 最终价格)。
+/// 【zh】 注意：这里的计算直接使用原始定点整数（raw）转成 `f64`，数量最后除以 `FIXED_SCALAR` 还原。
+/// 【zh】 每档可成交数量向下取整，价格为 0 的档位被跳过。
+/// 【zh】 一档都无法成交时返回 (0.0, 0.0, 最优价)；`final_price` 为最后实际成交的价位。
 #[must_use]
 pub fn get_avg_px_qty_for_exposure(
     target_exposure: Quantity,
