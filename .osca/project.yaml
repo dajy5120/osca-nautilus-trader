@@ -3,7 +3,7 @@
 schema: osca/v1
 project: nautilus-trader
 name: NautilusTrader
-osca_version: ">=0.4,<0.5"
+osca_version: ">=0.5,<0.6"
 
 upstream:
   remote: upstream

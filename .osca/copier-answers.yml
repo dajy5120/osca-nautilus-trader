@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 025c8d2
+_commit: e33f3d2
 _src_path: gh:dajy5120/opensource-code-atlas
 atlas_repo: dajy5120/opensource-code-atlas
 build_check: cargo check --workspace --all-features
